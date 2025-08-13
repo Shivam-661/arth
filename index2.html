@@ -3,35 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>3D Product Carousel</title>
+  <title>Landing Page Carousel</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    .carousel {
-      perspective: 2000px;
-    }
+    /* Carousel perspective effect */
     .carousel-item {
-      position: absolute;
-      transition: transform 0.6s ease, opacity 0.6s ease;
-      transform-style: preserve-3d;
-      opacity: 0.6;
-      z-index: 0;
+      transition: all 0.5s ease;
+      transform-origin: center;
+    }
+    .carousel-item.inactive {
+      transform: scale(0.8) translateY(20px);
+      opacity: 0.5;
     }
     .carousel-item.active {
-      transform: translateX(0) scale(1);
+      transform: scale(1) translateY(0);
       opacity: 1;
       z-index: 10;
     }
-    .carousel-item.left {
-      transform: translateX(-60%) scale(0.7) rotateY(20deg);
-      z-index: 5;
-    }
-    .carousel-item.right {
-      transform: translateX(60%) scale(0.7) rotateY(-20deg);
-      z-index: 5;
-    }
   </style>
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-50">
 
   <!-- Header -->
   <header class="bg-white shadow-md">
@@ -46,10 +37,10 @@
     </div>
   </header>
 
-  <!-- Carousel -->
-  <section class="relative max-w-7xl mx-auto mt-12">
-    <div id="carousel" class="carousel relative w-full h-[450px] flex justify-center items-center overflow-hidden">
-      <!-- Items injected by JS -->
+  <!-- Carousel Section -->
+  <section class="relative max-w-5xl mx-auto py-12">
+    <div id="carousel" class="flex justify-center items-center space-x-6">
+      <!-- Images will be inserted dynamically -->
     </div>
 
     <!-- Controls -->
@@ -61,11 +52,11 @@
 
   <script>
     const images = [
-      "https://picsum.photos/id/1015/1000/600",
-      "https://picsum.photos/id/1016/1000/600",
-      "https://picsum.photos/id/1018/1000/600",
-      "https://picsum.photos/id/1019/1000/600",
-      "https://picsum.photos/id/1020/1000/600"
+      "https://picsum.photos/id/1015/800/500",
+      "https://picsum.photos/id/1016/800/500",
+      "https://picsum.photos/id/1018/800/500",
+      "https://picsum.photos/id/1019/800/500",
+      "https://picsum.photos/id/1020/800/500"
     ];
 
     let currentIndex = 0;
@@ -75,19 +66,9 @@
       carousel.innerHTML = "";
       images.forEach((img, i) => {
         const div = document.createElement("div");
-        div.classList.add("carousel-item");
-        div.innerHTML = `<img src="${img}" class="w-3/4 h-[450px] object-cover rounded-2xl shadow-lg">`;
-
-        if (i === currentIndex) {
-          div.classList.add("active");
-        } else if (i === (currentIndex - 1 + images.length) % images.length) {
-          div.classList.add("left");
-        } else if (i === (currentIndex + 1) % images.length) {
-          div.classList.add("right");
-        } else {
-          div.style.opacity = "0";
-        }
-
+        div.className = "carousel-item rounded-2xl overflow-hidden shadow-lg " +
+          (i === currentIndex ? "active" : "inactive");
+        div.innerHTML = `<img src="${img}" class="w-80 h-56 object-cover">`;
         carousel.appendChild(div);
       });
     }
