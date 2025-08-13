@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Landing Page Carousel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Carousel perspective effect */
+    .carousel-item {
+      transition: all 0.5s ease;
+      transform-origin: center;
+    }
+    .carousel-item.inactive {
+      transform: scale(0.8) translateY(20px);
+      opacity: 0.5;
+    }
+    .carousel-item.active {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+
+  <!-- Header -->
+  <header class="bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-indigo-600">MyBrand</h1>
+      <nav class="space-x-6">
+        <a href="#" class="text-gray-700 hover:text-indigo-600">Home</a>
+        <a href="#" class="text-gray-700 hover:text-indigo-600">Products</a>
+        <a href="#" class="text-gray-700 hover:text-indigo-600">About</a>
+        <a href="#" class="text-gray-700 hover:text-indigo-600">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Carousel Section -->
+  <section class="relative max-w-5xl mx-auto py-12">
+    <div id="carousel" class="flex justify-center items-center space-x-6">
+      <!-- Images will be inserted dynamically -->
+    </div>
+
+    <!-- Controls -->
+    <div class="flex justify-center mt-6 space-x-4">
+      <button onclick="prevSlide()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">Prev</button>
+      <button onclick="nextSlide()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">Next</button>
+    </div>
+  </section>
+
+  <script>
+    const images = [
+      "https://picsum.photos/id/1015/800/500",
+      "https://picsum.photos/id/1016/800/500",
+      "https://picsum.photos/id/1018/800/500",
+      "https://picsum.photos/id/1019/800/500",
+      "https://picsum.photos/id/1020/800/500"
+    ];
+
+    let currentIndex = 0;
+    const carousel = document.getElementById("carousel");
+
+    function renderCarousel() {
+      carousel.innerHTML = "";
+      images.forEach((img, i) => {
+        const div = document.createElement("div");
+        div.className = "carousel-item rounded-2xl overflow-hidden shadow-lg " +
+          (i === currentIndex ? "active" : "inactive");
+        div.innerHTML = `<img src="${img}" class="w-80 h-56 object-cover">`;
+        carousel.appendChild(div);
+      });
+    }
+
+    function prevSlide() {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      renderCarousel();
+    }
+
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % images.length;
+      renderCarousel();
+    }
+
+    renderCarousel();
+  </script>
+</body>
+</html>
